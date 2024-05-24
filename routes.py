@@ -1,0 +1,64 @@
+from flask import render_template, request, url_for, redirect, flash
+from flask_login import login_user, login_required, logout_user, current_user
+from app import app, db
+from models import Car, User, Rental
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+
+        hash_password = generate_password_hash(password, method='sha256')
+        user1 = User(username=username, password=hash_password, email=email)
+
+        db.session.add(user1)
+        db.session.commit()
+
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('index'))
+        flash('Invalid username or password')
+    return render_template('login.html')
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/cars', methods=['GET', 'POST'])
+@login_required
+def manage_cars():
+    if request.method == 'POST':
+        make = request.form['make']
+        model = request.form['model']
+        year = request.form['year']
+
+        car1 = Car(make=make, model=model, year=year)
+        db.session.add(car1)
+        db.session.commit()
+        return redirect(url_for('manage_cars'))
+    cars = Car.query.all()
+    return render_template('cars.html', cars=cars)
