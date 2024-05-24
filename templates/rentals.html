@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Rental Management</title>
 </head>
 <body>
-
+{% extends "base.html" %}
+{% block content %}
+<h2>Rental Management</h2>
+<form method="post">
+<select name="car_id">
+    {% for car in cars %}
+    <option value="{{ car.id}}">{{ car.make }} {{car.model }} ({{car.year }})</option>
+    {% endfor %}
+</select>
+<input type="date" name="rental_data" required>
+<button type="submit">Rent Car</button>
+</form>
+<ul>
+    {% for rental in rentals %}
+    <li>Car ID: {{rental.car_id }} - Rental Date: {{ rental.rental_date }} - Return Date: {{ rental.return_date }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
 </body>
 </html>
