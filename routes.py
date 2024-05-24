@@ -62,3 +62,23 @@ def manage_cars():
         return redirect(url_for('manage_cars'))
     cars = Car.query.all()
     return render_template('cars.html', cars=cars)
+
+
+@app.route('/rentals', methods=['GET', 'POST'])
+@login_required
+def manage_rentals():
+    if request.method == 'POST':
+        car_id = request.form['car_id']
+        rental_date = request.form['rental_date']
+
+        rental = Rental(user_id=current_user.id, car_id=car_id, rental_date=rental_date)
+
+        car = Car.query.get(car_id)
+        car.availability = False
+
+        db.session.add(rental)
+        db.session.commit()
+        return redirect(url_for('manage_rentals'))
+    rentals = Rental.query.filter_by(user_id=current_user.id).all()
+    cars = Car.query.filter_by(availability=True).all()
+    return render_template('rentals.html', rentals=rentals, cars=cars)
