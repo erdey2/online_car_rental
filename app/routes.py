@@ -1,8 +1,13 @@
 from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
-from app import app, db
-from models import Car, User, Rental
+from app.models import db, Car, User, Rental
 from werkzeug.security import generate_password_hash, check_password_hash
+from app import app
+
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -41,11 +46,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 @app.route('/cars', methods=['GET', 'POST'])

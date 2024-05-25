@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Management</title>
+</head>
+<body>
+{% extends "base.html" %}
+{% block content %}
+<h2>Car Management</h2>
+<form method="post">
+    <input type="text" name="make" placeholder="Make" required>
+    <input type="text" name="model" placeholder="Model" required>
+    <input type="number" name="year" placeholder="Year" required>
+    <button type="submit">Add Car</button>
+</form>
+<ul>
+    {% for car in cars %}
+    <li>{{ car.make }} {{ car.model }} ({{ car.year }}) - {% if car.availability %}Available{% else %}Unavailable{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+</body>
+</html>
