@@ -17,14 +17,20 @@ def register():
         password = request.form['password']
         email = request.form['email']
 
-        hash_password = generate_password_hash(password, method='sha256')
+        hash_password = generate_password_hash(password)
         user1 = User(username=username, password=hash_password, email=email)
 
         db.session.add(user1)
         db.session.commit()
-
+        flash('registration successful', 'successful')
         return redirect(url_for('login'))
     return render_template('register.html')
+
+
+@app.route('/users')
+def users():
+    all_users = User.query.all()
+    return render_template('users.html', users=all_users)
 
 
 @app.route('/login', methods=['GET', 'POST'])

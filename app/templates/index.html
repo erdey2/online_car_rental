@@ -5,6 +5,33 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Online Car Rental Management System </h1>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1>Welcome to Car Rental System</h1>
+    <img src = "{{url_for('static', filename='images/car2.jpeg') }} " alt="Car Image" width = "600px" height="300px" class="car_image"/>
+    <p class="lead">Rent your dream car at the best prices.</p>
+    <p>Sign up now to enjoy exclusive deals and offers.</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Wide Range of Cars</h2>
+            <p>Choose from a wide range of cars to suit your needs and budget.</p>
+        </div>
+        <div class="col-md-4">
+            <h2>Affordable Prices</h2>
+            <p>Get the best deals and offers on car rentals with no hidden charges.</p>
+        </div>
+        <div class="col-md-4">
+            <h2>24/7 Customer Support</h2>
+            <p>We are here to help you with all your queries and concerns, anytime.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
 </body>
 </html>
