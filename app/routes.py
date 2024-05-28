@@ -61,13 +61,40 @@ def manage_cars():
         make = request.form['make']
         model = request.form['model']
         year = request.form['year']
+        # price_per_day = request.form['price_per_day']
 
-        car1 = Car(make=make, model=model, year=year)
-        db.session.add(car1)
+        car = Car(make=make, model=model, year=year)
+        # price_per_day = price_per_day
+        db.session.add(car)
         db.session.commit()
         return redirect(url_for('manage_cars'))
     cars = Car.query.all()
     return render_template('cars.html', cars=cars)
+
+
+@app.route('/delete_car/<int:car_id>', methods=['POST'])
+@login_required
+def delete_car(car_id):
+    car = Car.query.get_or_404(car_id)
+    if car:
+        db.session.delete(car)
+        db.session.commit()
+        flash('car deleted successfully', 'success')
+    else:
+        flash('car not found', 'danger')
+    return redirect(url_for('manage_cars'))
+
+
+@app.route('/list_cars')
+def list_cars():
+    cars = Car.query.all()
+    return render_template('car_list.html', cars=cars)
+
+
+@app.route('/car/<int:car_id>')
+def car_profile(car_id):
+    car = Car.query.get_or_404(car_id)
+    return render_template('car_profile.html', car=car)
 
 
 @app.route('/rentals', methods=['GET', 'POST'])

@@ -21,12 +21,15 @@ class Car(db.Model):
     make = db.Column(db.String(50), nullable=False)
     model = db.Column(db.String(50), nullable=False)
     year = db.Column(db.Integer, nullable=False)
+    # price_per_day = db.Column(db.Float, nullable=False)
     availability = db.Column(db.Boolean, nullable=False, default=True)
 
     def __init__(self, make, model, year, availability=True):
+        # price_per_day
         self.make = make
         self.model = model
         self.year = year
+        # self.price_per_day = price_per_day
         self.availability = availability
 
 
@@ -40,6 +43,3 @@ class Rental(db.Model):
     user = db.relationship('User', backref=db.backref('rentals', lazy=True))
     car = db.relationship('Car', backref=db.backref('rentals', lazy=True))
 
-
-car1 = Car(make="Toyota", model='Camry', year=2022)
-car2 = Car(make="Honda", model='Civic', year=2018)
