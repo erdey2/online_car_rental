@@ -2,16 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-{% extends "base.html" %}
-
-{% block title %}Car List{% endblock %}
-
-{% block content %}
-<div class="container">
-    <h2 class="mt-4">Car List</h2>
+    <header>
+        <h1>Welcome, {{ user.username }}</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('customer_home') }}">Home</a></li>
+                <li><a href="{{ url_for('car_search') }}">Search Cars</a></li>
+                <li><a href="{{ url_for('profile') }}">My Profile</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Available Cars</h2>
+        <div class="container">
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
@@ -43,6 +52,7 @@
                 </td>
                 <td>
                     <a href="{{ url_for('car_book', car_id=car.id) }}" class="btn btn-info">Book Now</a>
+                    <a href="{{ url_for('car_rent', car_id=car.id) }}" class="btn btn-info">Rent Now</a>
                 </td>
             </tr>
             {% endfor %}
@@ -50,6 +60,6 @@
     </table>
 </div>
 <a href="{{url_for('index') }}" class="back-home-link">Back to Home</a>
-{% endblock %}
+    </main>
 </body>
 </html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "base.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">User Profile</h2>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <h3>Your Rentals</h3>
+    <ul>
+        {% for rental in user.rentals %}
+        <li>{{ rental.car.make }} {{ rental.car.model }} - From {{ rental.rental_date }} to {{ rental.return_date }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+</body>
+</html>

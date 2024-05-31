@@ -12,15 +12,17 @@
 {% block content %}
 <div class="container">
     <h2 class="mt-4">{{ car.make }} {{ car.model }}</h2>
+    <p>Category: {{ car.category }}</p>
     <p>Year: {{ car.year }}</p>
     <p>Price per Day: ${{ car.price_per_day }}</p>
     <p>Availability: {{ 'Available' if car.availability else 'Not Available' }}</p>
     <form action="{{ url_for('book_car', car_id=car.id) }}" method="post">
         <button type="submit" class="btn btn-primary" {% if not car.availability %}disabled{% endif %}>Book Now</button>
     </form>
-    <form action="{{ url_for('delete_car', car_id=car.id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this car?');">
+    <form action="{{ url_for('car_delete', car_id=car.id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this car?');">
         <button type="submit" class="btn btn-danger mt-2">Delete Car</button>
     </form>
 </div>
 </body>
+{% endblock %}
 </html>
