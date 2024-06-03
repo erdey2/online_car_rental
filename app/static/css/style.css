@@ -10,7 +10,7 @@ header {
     padding: 1em 0;
     text-align: center;
 }
-div.car_info
+div#car_info
 {
 border: 1px solid #ccc;
 padding: 2px;
@@ -21,11 +21,22 @@ width: 920px;
 height: 180px;
 background-color: #fff;
 }
-div.car_info h2
+div#car_info h2
 {
 margin: 0px;
 padding: 0px;
 background-color: #EB984E;
+}
+div#car_status
+{
+border: 1px solid #ccc;
+padding: 2px;
+padding-bottom: 0px;
+margin-bottom: 20px;
+margin: auto 310px;
+width: 920px;
+height: 80px;
+background-color: #fff;
 }
 
 nav ul {
