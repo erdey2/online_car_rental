@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "base.html" %}
+{% block content %}
+<h2>Car List</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for car in cars %}
+        <tr>
+            <td>{{ car.make }}</td>
+            <td>{{ car.model }}</td>
+            <td>{{ car.year }}</td>
+            <td>{{ car.status }}</td>
+            <td>
+                <form action="{{ url_for('car_status_update', car_id=car.id) }}" method="post" style="display:inline;">
+                    <select name="status">
+                        <option value="Available" {% if car.status == 'Available' %}selected{% endif %}>Available</option>
+                        <option value="Booked" {% if car.status == 'Booked' %}selected{% endif %}>Booked</option>
+                        <option value="Rented" {% if car.status == 'Rented' %}selected{% endif %}>Rented</option>
+                        <option value="Unavailable" {% if car.status == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+                    </select>
+                    <button type="submit">Update Status</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+</body>
+</html>

@@ -43,13 +43,7 @@
                 <td>{{ car.category }}</td>
                 <td>{{ car.year }}</td>
                 <td>${{ car.price_per_day }}</td>
-                <td>
-                    {% if car.availability %}
-                    available
-                    {% else %}
-                    not available
-                    {% endif %}
-                </td>
+                <td>{{ car.status }}</td>
                 <td>
                     <a href="{{ url_for('car_book', car_id=car.id) }}" class="btn btn-info">Book Now</a>
                     <a href="{{ url_for('car_rent', car_id=car.id) }}" class="btn btn-info">Rent Now</a>
@@ -59,7 +53,8 @@
         </tbody>
     </table>
 </div>
-<a href="{{url_for('index') }}" class="back-home-link">Back to Home</a>
+        <br>
+        <a href="{{url_for('index') }}" class="back-home-link">Back to Home</a>
     </main>
 </body>
 </html>

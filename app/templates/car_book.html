@@ -6,16 +6,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 </head>
 <body>
-    <h1>Book {{car.model}} {{car.year}} </h1>
-    <form method="POST">
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date" required>
-        <br>
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date" required>
-        <br>
-        <input type="submit" value="Book Now">
-    </form>
-    <a href="{{ url_for('index') }}" class="back-home-link">Back to Homemmmm</a>
+{% extends "base2.html" %}
+{% block content %}
+<div class="car_info">
+    <h2>Car Information </h2>
+    make: <b>{{car.make}} </b> <br>
+    model: <b> {{ car.model }} </b> <br>
+    category: <b> {{car.category}} </b> <br>
+    year: <b> {{car.year}} </b><br>
+    price per day: <b> {{car.price_per_day}}$ </b>
+</div>
+<form method="POST">
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date" required>
+    <br><br>
+    <label for="end_date">End Date:</label>
+    <input type="date" id="end_date" name="end_date" required>
+    <br><br>
+
+    <button type="submit">Book now</button>
+        <!--<input type="submit" value="Book Now">-->
+</form>
+<a href="{{ url_for('index') }}" class="back-home-link">Back to Home</a>
 </body>
+{% endblock %}
 </html>

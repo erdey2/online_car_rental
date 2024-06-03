@@ -29,15 +29,14 @@ class Car(db.Model):
     category = db.Column(db.String(50), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     price_per_day = db.Column(db.Integer, nullable=False)
-    availability = db.Column(db.Boolean, nullable=False, default=True)
+    status = db.Column(db.String(20), nullable=False, default="Available")
 
-    def __init__(self, make, model, category, year, price_per_day, availability=True):
+    def __init__(self, make, model, category, year, price_per_day):
         self.make = make
         self.model = model
         self.category = category
         self.year = year
         self.price_per_day = price_per_day
-        self.availability = availability
 
     def is_available(self, start_date, end_date):
         bookings = Booking.query.filter_by(car_id=self.id).all()

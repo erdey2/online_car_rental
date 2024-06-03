@@ -5,28 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rent Car</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">-->
 </head>
 <body>
-    <header>
-        <h1>Rent {{ car.model }}</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('customer_home') }}">Home</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
+{% extends "base2.html" %}
+{% block content %}
+        <div class="car_info">
+            <h2>Car Information </h2>
+            make: <b>{{car.make}} </b> <br>
+            model: <b> {{ car.model }} </b> <br>
+            category: <b> {{car.category}} </b> <br>
+            year: <b> {{car.year}} </b><br>
+            price per day: <b> {{car.price_per_day}}$ </b>
+        </div>
         <form method="POST">
             <label for="start_date">Start Date:</label>
             <input type="date" id="start_date" name="start_date" required>
+            <br> <br>
 
             <label for="end_date">End Date:</label>
             <input type="date" id="end_date" name="end_date" required>
-
+            <br><br>
             <button type="submit">Confirm Rental</button>
+
         </form>
-    </main>
+        <a href="{{ url_for('index') }}" class="back-home-link">Back to Home</a>
 </body>
+{% endblock %}
 </html>

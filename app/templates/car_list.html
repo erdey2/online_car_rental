@@ -34,15 +34,13 @@
                 <td>{{ car.category }}</td>
                 <td>{{ car.year }}</td>
                 <td>${{ car.price_per_day }}</td>
+                <td>{{car.status}}</td>
                 <td>
-                    {% if car.availability %}
-                    available
+                    {% if car.status == "Available" %}
+                    <a href="{{ url_for('car_book', car_id=car.id) }}" class="btn btn-info">Book/Rent</a>
                     {% else %}
-                    not available
+                    <button class="btn btn-secondary" disabled>{{ car.status }}</button>
                     {% endif %}
-                </td>
-                <td>
-                    <a href="{{ url_for('car_book', car_id=car.id) }}" class="btn btn-info">Book Now</a>
                 </td>
             </tr>
             {% endfor %}

@@ -11,8 +11,12 @@
 
 {% block content %}
 <div class="jumbotron text-center">
-    <h1>Welcome to Car Rental System</h1>
-    <img src = "{{url_for('static', filename='images/car2.jpeg') }} " alt="Car Image" width = "600px" height="300px" class="car_image"/>
+     <h1>Welcome to Car Rental System</h1>
+    <video autoplay muted>
+        <source src="{{ url_for('static', filename='videos/cars.mp4') }}"  type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    <!--<img src = "{{url_for('static', filename='images/car2.jpeg') }} " alt="Car Image" width = "600px" height="350px" class="car_image"/> -->
     <p class="lead">Rent your dream car at the best prices.</p>
     <p>Sign up now to enjoy exclusive deals and offers.</p>
 </div>

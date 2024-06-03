@@ -6,8 +6,20 @@
     <title>{% block title %}Car Rental System{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% if get_flashed_messages() %}
+        <meta http-equiv="refresh" content="3">
+    {% endif %}
 </head>
 <body>
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{{ url_for('index') }}">Car Rental</a>
@@ -17,14 +29,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('list_cars') }}">Cars Available</a>
+                        <b><a class="nav-link" href="{{ url_for('car_list') }}">Available Cars</a></b>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                        <b><a class="nav-link" href="{{ url_for('register') }}">Register</a></b>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                        <b><a class="nav-link" href="{{ url_for('login') }}">Login</a></b>
                     </li>
+                    </b>
+
                 </ul>
             </div>
         </nav>
