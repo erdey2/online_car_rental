@@ -224,6 +224,23 @@ def car_status_update(car_id):
     return render_template('car_status_update.html', car=car)
 
 
+@app.route('/rental_history')
+@admin_required
+def rental_history():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+
+    if user.role != 'admin':
+        flash('Only admins can view rental history.', 'error')
+        return redirect(url_for('manage_cars'))
+
+    rentals = Rental.query.all()
+    return render_template('rental_history.html', rentals=rentals)
+
+
 @app.route('/car_list')
 def car_list():
     cars = Car.query.all()
