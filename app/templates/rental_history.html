@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 </head>
 <body>
-{% extends "base.html" %}
-{% block content %}
 <h2>Rental History</h2>
 <table>
     <thead>
@@ -18,6 +17,7 @@
             <th>Total Cost</th>
             <th>Date Created</th>
             <th>Payment Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -30,11 +30,19 @@
             <td>{{ rental.total_cost }}</td>
             <td>{{ rental.date_created }}</td>
             <td>{{ 'Paid' if rental.payment_status else 'Unpaid' }}</td>
+            <td>
+                <form action="{{ url_for('update_payment_status', rental_id=rental.id) }}" method="post">
+                    <select name="payment_status">
+                        <option value="Paid" {% if rental.payment_status %}selected{% endif %}>Paid</option>
+                        <option value="Unpaid" {% if not rental.payment_status %}selected{% endif %}>Unpaid</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-{% endblock %}
 
 </body>
 </html>

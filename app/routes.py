@@ -224,6 +224,33 @@ def car_status_update(car_id):
     return render_template('car_status_update.html', car=car)
 
 
+@app.route('/update_payment_status/<int:rental_id>', methods=['POST'])
+@admin_required
+def update_payment_status(rental_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+
+    if user.role != 'admin':
+        flash('Only administrators can update payment status.', 'error')
+        return redirect(url_for('rental_history'))
+
+    rental = Rental.query.get_or_404(rental_id)
+    new_status = request.form.get('payment_status')
+
+    if new_status not in ['Paid', 'Unpaid']:
+        flash('Invalid payment status.')
+        return redirect(url_for('rental_history'))
+
+    rental.payment_status = True if new_status == 'Paid' else False
+    db.session.commit()
+
+    flash('Payment status updated successfully.')
+    return redirect(url_for('rental_history'))
+
+
 @app.route('/rental_history')
 @admin_required
 def rental_history():

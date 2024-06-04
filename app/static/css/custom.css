@@ -148,6 +148,12 @@ table, th, td
 {
 border: 1px solid;
 }
+td form select
+{
+background-color: #fff;
+color: #000000;
+margin: 10px;
+}
 footer
 {
 background: #f8f9fa;
