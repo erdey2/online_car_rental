@@ -22,11 +22,7 @@ div#admin_nav
 margin: 20px auto;
 text-align: center;
 }
-div#admin_nav#log
-{
-text-align: right;
-border: 2px solid #FF0000;
-}
+
 table th, table td {
     padding: 10px;
     border: 1px solid #ddd;
@@ -50,6 +46,14 @@ form {
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
+    border-radius: 5px;
+}
+td form
+{
+    display: block;
+    padding: 19px;
+    background-color: #fff;
+    border: 1px solid #bbbbbb;
     border-radius: 5px;
 }
 #form1
