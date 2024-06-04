@@ -51,18 +51,13 @@ form {
 td form
 {
     display: block;
-    padding: 19px;
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
     background-color: #fff;
-    border: 1px solid #bbbbbb;
+    border: 1px solid #ddd;
     border-radius: 5px;
 }
-#form1
-{
-display:block;
-border: 0px none #aaa;
-padding: 0px;
-}
-
 form label {
     display: block;
     margin-bottom: 10px;
@@ -147,12 +142,6 @@ margin-top: 0px;
 table, th, td
 {
 border: 1px solid;
-}
-td form select
-{
-background-color: #fff;
-color: #000000;
-margin: 10px;
 }
 footer
 {

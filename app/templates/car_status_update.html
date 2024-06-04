@@ -8,7 +8,7 @@
 <body>
 {% extends "base2.html" %}
 {% block content %}
-<div id="car_info">
+<div class="car_info">
     <h2>Update Car Status </h2>
     make: <b>{{car.make}} </b> <br>
     model: <b> {{ car.model }} </b> <br>
@@ -17,9 +17,9 @@
     price per day: <b> {{car.price_per_day}}$ </b>
 </div>
 <form action="{{ url_for('car_status_update', car_id=car.id) }}" method="post">
-    <div id="car_status">
+    <div class="car_status">
         <label for="status">Status</label>
-        <select name="status" id="status"><br><br>
+        <select name="status" id="status">
             <option value="Available" {% if car.status == 'Available' %}selected{% endif %}>Available</option>
             <option value="Booked" {% if car.status == 'Booked' %}selected{% endif %}>Booked</option>
             <option value="Rented" {% if car.status == 'Rented' %}selected{% endif %}>Rented</option>
