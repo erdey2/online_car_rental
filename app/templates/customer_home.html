@@ -13,7 +13,7 @@
             <ul>
                 <li><a href="{{ url_for('customer_home') }}">Home</a></li>
                 <li><a href="{{ url_for('car_search') }}">Search Cars</a></li>
-                <li><a href="{{ url_for('profile') }}">My Profile</a></li>
+                <li><a href="{{ url_for('customer_profile') }}">My Profile</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
         </nav>
@@ -45,8 +45,12 @@
                 <td>${{ car.price_per_day }}</td>
                 <td>{{ car.status }}</td>
                 <td>
+                    {% if car.status == 'Available' %}
                     <a href="{{ url_for('car_book', car_id=car.id) }}" class="btn btn-info">Book Now</a>
                     <a href="{{ url_for('car_rent', car_id=car.id) }}" class="btn btn-info">Rent Now</a>
+                    {% else %}
+                    <button class="btn btn-secondary" disabled>{{ car.status }}</button>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

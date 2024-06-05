@@ -22,8 +22,8 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/add_user', methods=['GET', 'POST'])
+def add_user():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -41,12 +41,6 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/users')
-def users():
-    all_users = User.query.all()
-    return render_template('users.html', users=all_users)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -62,14 +56,22 @@ def login():
             if user.role == 'customer':
                 return redirect(url_for('customer_home'))
             else:
-                return redirect(url_for('manage_cars'))
+                return redirect(url_for('admin_panel'))
         else:
             flash('Invalid username or password')
 
     return render_template('login.html')
 
 
+@app.route('/users')
+@admin_required
+def users():
+    all_users = User.query.all()
+    return render_template('users.html', users=all_users)
+
+
 @app.route('/customer_home')
+@login_required
 def customer_home():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -107,11 +109,11 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/manage_cars', methods=['GET', 'POST'])
+@app.route('/admin_panel', methods=['GET', 'POST'])
 @admin_required
-def manage_cars():
+def admin_panel():
     cars = Car.query.all()
-    return render_template('manage_cars.html', cars=cars)
+    return render_template('admin_panel.html', cars=cars)
 
 
 @app.route('/car_add', methods=['GET', 'POST'])
@@ -143,7 +145,7 @@ def car_add():
         db.session.commit()
 
         flash('Car added successfully!')
-        return redirect(url_for('manage_cars'))
+        return redirect(url_for('admin_panel'))
 
     return render_template('car_add.html')
 
@@ -169,7 +171,7 @@ def car_edit(car_id):
         db.session.commit()
 
         flash('Car details updated successfully!')
-        return redirect(url_for('manage_cars'))
+        return redirect(url_for('admin_panel'))
 
     return render_template('car_edit.html', car=car)
 
@@ -185,14 +187,14 @@ def car_delete(car_id):
 
     if user.role != 'admin':
         flash('Only admins can delete cars.', 'error')
-        return redirect(url_for('manage_cars'))
+        return redirect(url_for('admin_panel'))
 
     car = Car.query.get_or_404(car_id)
     db.session.delete(car)
     db.session.commit()
 
     flash('Car has been deleted successfully.', 'success')
-    return redirect(url_for('manage_cars'))
+    return redirect(url_for('admin_panel'))
 
 
 @app.route('/car_status_update/<int:car_id>', methods=['GET', 'POST'])
@@ -206,7 +208,7 @@ def car_status_update(car_id):
 
     if user.role != 'admin':
         flash('Only admins can update car status.', 'error')
-        return redirect(url_for('manage_cars'))
+        return redirect(url_for('admin_panel'))
 
     car = Car.query.get_or_404(car_id)
 
@@ -219,7 +221,7 @@ def car_status_update(car_id):
         car.status = new_status
         db.session.commit()
         flash(f'Car status updated to {new_status}.')
-        return redirect(url_for('manage_cars'))
+        return redirect(url_for('admin_panel'))
 
     return render_template('car_status_update.html', car=car)
 
@@ -262,7 +264,7 @@ def rental_history():
 
     if user.role != 'admin':
         flash('Only admins can view rental history.', 'error')
-        return redirect(url_for('manage_cars'))
+        return redirect(url_for('admin_panel'))
 
     rentals = Rental.query.all()
     return render_template('rental_history.html', rentals=rentals)
@@ -281,13 +283,9 @@ def car_profile(car_id):
 
 
 @app.route('/car_book/<int:car_id>', methods=['GET', 'POST'])
-@login_required
 def car_book(car_id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
     car = Car.query.get_or_404(car_id)
-    user = User.query.get(session['user_id'])
+    user = current_user
 
     if request.method == 'POST':
         start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
@@ -295,10 +293,17 @@ def car_book(car_id):
         total_days = (end_date - start_date).days
         total_cost = total_days * car.price_per_day
 
-        # check if the car is available
+        # Check if the car is available
         if car.status != 'Available':
-            flash('Car is not available for book.')
-            return redirect(url_for('car_list'))
+            flash('Car is not available for booking.', 'danger')
+            return redirect(url_for('customer_home'))
+
+        # Check for overlapping bookings
+        existing_bookings = Booking.query.filter_by(car_id=car.id).all()
+        for booking in existing_bookings:
+            if start_date <= booking.end_date and end_date >= booking.start_date:
+                flash('Car is already booked for the selected dates.', 'danger')
+                return redirect(url_for('customer_home'))
 
         new_booking = Booking(
             car_id=car.id,
@@ -311,12 +316,11 @@ def car_book(car_id):
         db.session.add(new_booking)
         db.session.commit()
 
-        # Set car availability to Reserved
-        car.status = "Reserved"
+        # Set car availability to Booked
+        car.status = "Booked"
         db.session.commit()
 
-        flash('Car booked successfully!')
-
+        flash('Car booked successfully!', 'success')
         return redirect(url_for('customer_home'))
 
     return render_template('car_book.html', car=car)
@@ -324,22 +328,26 @@ def car_book(car_id):
 
 @app.route('/car_rent/<int:car_id>', methods=['GET', 'POST'])
 def car_rent(car_id):
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
     car = Car.query.get_or_404(car_id)
-    user = User.query.get(session['user_id'])
+    user = current_user
 
     # Check car status
-    if car.status != 'Available':
-        flash('Car is not available for rent.')
-        return redirect(url_for('car_list'))
+    if car.status != 'Available' and car.status != 'Reserved':
+        flash('Car is not available for rent.', 'danger')
+        return redirect(url_for('customer_home'))
 
     if request.method == 'POST':
         start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d')
         end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d')
         total_days = (end_date - start_date).days
         total_cost = total_days * car.price_per_day
+
+        # Check for overlapping rentals
+        existing_rentals = Rental.query.filter_by(car_id=car.id).all()
+        for rental in existing_rentals:
+            if start_date <= rental.end_date and end_date >= rental.start_date:
+                flash('Car is already rented for the selected dates.', 'danger')
+                return redirect(url_for('customer_home'))
 
         new_rental = Rental(
             car_id=car.id,
@@ -351,12 +359,11 @@ def car_rent(car_id):
         db.session.add(new_rental)
         db.session.commit()
 
-        # Set car availability to Ranted
+        # Set car status to Rented
         car.status = "Rented"
         db.session.commit()
 
-        flash('Car rented successfully!')
-
+        flash('Rental information submitted successfully!', 'success')
         return redirect(url_for('customer_home'))
 
     return render_template('car_rent.html', car=car)

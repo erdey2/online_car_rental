@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
 </head>
 <body>
-{% extends "base.html" %}
-{% block title %}Registered Users {% endblock %}
-{% block content %}
 <div class="container">
-   <h2 class="mt-4">Registered Users</h2>
     <table class="table table-bordered mt-3">
         <thead>
         <tr>
@@ -29,6 +28,5 @@
         </tbody>
     </table>
 </div>
-{% endblock %}
 </body>
 </html>

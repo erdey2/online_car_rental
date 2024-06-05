@@ -37,7 +37,7 @@
                 <td>{{car.status}}</td>
                 <td>
                     {% if car.status == "Available" %}
-                    <a href="{{ url_for('car_book', car_id=car.id) }}" class="btn btn-info">Book/Rent</a>
+                    <a href="{{ url_for('customer_home', car_id=car.id) }}" class="btn btn-info">Book/Rent</a>
                     {% else %}
                     <button class="btn btn-secondary" disabled>{{ car.status }}</button>
                     {% endif %}

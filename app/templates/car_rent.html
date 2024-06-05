@@ -2,33 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent Car</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <title>Book Car</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book_rent.css') }}">
 </head>
 <body>
 {% extends "base2.html" %}
 {% block content %}
-        <div class="car_info">
-            <h2>Car Information </h2>
-            make: <b>{{car.make}} </b> <br>
-            model: <b> {{ car.model }} </b> <br>
-            category: <b> {{car.category}} </b> <br>
-            year: <b> {{car.year}} </b><br>
-            price per day: <b> {{car.price_per_day}}$ </b>
-        </div>
-        <form method="POST">
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item-header">Car Information</li>
+        <li class="list-group-item">make: <b>{{car.make}} </b> <br></li>
+        <li class="list-group-item">model: <b> {{ car.model }} </b> <br></li>
+        <li class="list-group-item">category: <b> {{car.category}} </b> <br></li>
+        <li class="list-group-item">year: <b> {{car.year}} </b><br></li>
+        <li class="list-group-item">price per day: <b> {{car.price_per_day}}$ </b></li>
+    </ul>
+</div>
+
+<div class="container">
+    <form method="POST">
+        <div class="form-group">
             <label for="start_date">Start Date:</label>
-            <input type="date" id="start_date" name="start_date" required>
-            <br> <br>
+            <input type="date" name="start_date" id="start_date" class="form-control"  required>
 
+        </div>
+        <div class="form-group">
             <label for="end_date">End Date:</label>
-            <input type="date" id="end_date" name="end_date" required>
-            <br><br>
-            <button type="submit">Confirm Rental</button>
+            <input type="date" name="end_date" class="form-control" id="end_date"  required>
+        </div>
+        <button type="submit" class="btn btn-primary">Rent Confirm</button>
+    </form>
 
-        </form>
-        <a href="{{ url_for('index') }}" class="back-home-link">Back to Home</a>
+</div>
+<div class="back-home-link-container">
+    <a href="{{ url_for('index') }}" class="back-home-link">Back to Home</a>
+</div>
+
 </body>
 {% endblock %}
 </html>

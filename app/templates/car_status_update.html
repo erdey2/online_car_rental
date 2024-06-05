@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book_rent.css') }}">
 </head>
 <body>
 {% extends "base2.html" %}
 {% block content %}
-<div class="car_info">
-    <h2>Update Car Status </h2>
-    make: <b>{{car.make}} </b> <br>
-    model: <b> {{ car.model }} </b> <br>
-    category: <b> {{car.category}} </b> <br>
-    year: <b> {{car.year}} </b><br>
-    price per day: <b> {{car.price_per_day}}$ </b>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item-header">Car Information</li>
+        <li class="list-group-item">make: <b>{{car.make}} </b> <br></li>
+        <li class="list-group-item">model: <b> {{ car.model }} </b> <br></li>
+        <li class="list-group-item">category: <b> {{car.category}} </b> <br></li>
+        <li class="list-group-item">year: <b> {{car.year}} </b><br></li>
+        <li class="list-group-item">price per day: <b> {{car.price_per_day}}$ </b></li>
+    </ul>
 </div>
-<form action="{{ url_for('car_status_update', car_id=car.id) }}" method="post">
-    <div class="car_status">
-        <label for="status">Status</label>
-        <select name="status" id="status">
-            <option value="Available" {% if car.status == 'Available' %}selected{% endif %}>Available</option>
-            <option value="Booked" {% if car.status == 'Booked' %}selected{% endif %}>Booked</option>
-            <option value="Rented" {% if car.status == 'Rented' %}selected{% endif %}>Rented</option>
-            <option value="Unavailable" {% if car.status == 'Unavailable' %}selected{% endif %}>Unavailable</option>
-        </select>
-        <button type="submit">Update Status</button>
-    </div>
-
-</form>
-
+<div class="container">
+    <form action="{{ url_for('car_status_update', car_id=car.id) }}" method="post">
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select id="status", name="status" class="form-select">
+                <option value="Available" {% if car.status == 'Available' %}selected{% endif %}>Available</option>
+                <option value="Rented" {% if car.status == 'Rented' %}selected{% endif %}>Rented</option>
+                <option value="Unavailable" {% if car.status == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+            </select>
+            <button class="btn btn-primary" type="submit">Update Status</button>
+        </div>
+    </form>
+</div>
 </body>
 {% endblock %}
 </html>
