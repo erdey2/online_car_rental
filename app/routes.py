@@ -81,8 +81,8 @@ def customer_home():
     return render_template('customer_home.html', user=user, cars=cars)
 
 
-@app.route('/profile')
-def profile():
+@app.route('/customer_profile')
+def customer_profile():
     if 'username' not in session:
         flash('You need to log in first', 'danger')
         return redirect(url_for('login'))
