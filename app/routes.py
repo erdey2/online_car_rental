@@ -376,11 +376,11 @@ def manage_rentals():
         rental = Rental(user_id=current_user.id, car_id=car_id, rental_date=rental_date)
 
         car = Car.query.get(car_id)
-        car.availability = False
+        car.availability = 'Rented'
 
         db.session.add(rental)
         db.session.commit()
         return redirect(url_for('manage_rentals'))
     rentals = Rental.query.filter_by(user_id=current_user.id).all()
-    cars = Car.query.filter_by(availability=True).all()
+    cars = Car.query.filter_by(availability='Available').all()
     return render_template('rentals.html', rentals=rentals, cars=cars)
