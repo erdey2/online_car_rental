@@ -83,10 +83,7 @@ def customer_home():
 
 @app.route('/customer_profile')
 def customer_profile():
-    if 'username' not in session:
-        flash('You need to log in first', 'danger')
-        return redirect(url_for('login'))
-    user = User.query.filter_by(username=session['username']).first()
+    user = User.query.get(current_user.id)
     return render_template('profile.html', user=user)
 
 

@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
 </head>
 <body>
+{% extends "base2.html" %}
+{% block content %}
     <h1>Edit Car Details</h1>
 
     <form method="POST">
@@ -26,9 +28,9 @@
         <br>
         <button type="submit">Update Car</button>
         <br><br>
-        <a href="{{ url_for('manage_cars') }}">Back to Manage Cars</a>
+        <a href="{{ url_for('admin_panel') }}">Back to Home</a>
     </form>
 
-
+{% endblock %}
 </body>
 </html>

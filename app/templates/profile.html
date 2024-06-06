@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book_rent.css') }}">
 </head>
 <body>
-{% extends "base.html" %}
 
-{% block title %}User Profile{% endblock %}
-
-{% block content %}
 <div class="container">
     <h2 class="mt-4">User Profile</h2>
-    <p>Username: {{ user.username }}</p>
-    <p>Email: {{ user.email }}</p>
-    <h3>Your Rentals</h3>
-    <ul>
+    <ul class="list-group">
+        <li class="list-group-item">Username: {{ user.username }}</li>
+        <li class="list-group-item">Email: {{ user.email }} </li>
+    </ul>
+
+    <h3 class="mt-4">Your Rentals</h3>
+    <ul class="list-group">
         {% for rental in user.rentals %}
-        <li>{{ rental.car.make }} {{ rental.car.model }} - From {{ rental.rental_date }} to {{ rental.return_date }}</li>
+        <li class="list-group-item">{{ rental.car.make }} {{ rental.car.model }} - From {{ rental.start_date }} to {{ rental.end_date }}</li>
         {% endfor %}
     </ul>
 </div>
-{% endblock %}
 </body>
 </html>
