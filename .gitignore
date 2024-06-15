@@ -1,0 +1,23 @@
+# Ignore the .idea folder (IDE settings)
+.idea/
+
+# Ignore virtual environment folders
+venv/
+env/
+.car_env/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore environment variable files
+.env
+
+# Ignore log files
+*.log
+
+# Ignore SQLite database files
+*.sqlite3
+
+# Ignore instance folder
+instance/
